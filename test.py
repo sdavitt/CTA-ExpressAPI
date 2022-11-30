@@ -1,9 +1,12 @@
 import requests as r
 
-data = r.get('http://localhost:3000/artist/riz la vie')
+#data = r.post('http://localhost:3000/new/artist', json={'artist':'Jay-Z', 'songs': ['Heart of the City', 'Renegade']})
+data = r.get('http://localhost:3000/music')
 print(data.status_code)
-print(data.json())
+print(data)
+print(data.json()) # error on POST route
 
+# Express GET Route vs. Flask GET Route
 
 # app.get('/music', (req, res)=>{
 #     console.log('Received a request at "localhost:3000/"')
@@ -12,7 +15,3 @@ print(data.json())
 #     // in this case it is just a global variable
 #     return res.json(songs);
 # });
-@app.route('/music', methods=["GET"])
-def music():
-    print()
-    return jsonify({'something':'ok'}, 200)

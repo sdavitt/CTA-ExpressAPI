@@ -44,3 +44,33 @@ app.get('/artist/:name', (req, res)=>{
     }
     return res.json({'Artist': req.params.name, 'Tracks': songs[req.params.name]});
 });
+
+// this middleware helps the route receive and read JSON information
+app.use('/admin', express.json());
+
+// create a POST route to add a new artist to my "database"
+app.post('/admin', (req, res)=>{
+    console.log('Received POST request!');
+    // unlike Flask, where we can just access JSON information from the body of a request in a route
+    // we need to set up some translation of the request before we actually access the body of the request
+    // middleware express.json() on like 49
+    console.log(req.body);
+    // once we've received and can read the information, we can use it to add to or change our existing "database"
+    songs[req.body.artist] = req.body.songs;
+    console.log(songs);
+    res.statusCode = 204;
+    return res.json({test: 'information'}); // bugged JSON response on the POST request - python JSON decoder error
+});
+// create an PUT route to change an existing artist's songs
+app.put('/admin', (req, res)=>{
+    // takes in an existing artist's name and changes their songs
+    songs[req.body.artist] = req.body.songs;
+    res.statusCode;
+    return res.json('updated');
+});
+// create a DELETE route to remove an existing artist
+app.delete('/admin', (req, res)=>{
+    delete songs[req.body.artist];
+    res.statusCode;
+    return res.json('deleted');
+});
